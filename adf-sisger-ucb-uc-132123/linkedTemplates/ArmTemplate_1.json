@@ -1,0 +1,431 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Nombre de instancia de Data Factory",
+			"defaultValue": "adf-sisger-ucb-uc-132123"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/sql_pagos')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "sql_omnicanal",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "sql"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "pago_id",
+						"type": "varchar"
+					},
+					{
+						"name": "venta_id",
+						"type": "varchar"
+					},
+					{
+						"name": "fecha_pago",
+						"type": "date"
+					},
+					{
+						"name": "metodo_pago",
+						"type": "nvarchar"
+					},
+					{
+						"name": "estado_pago",
+						"type": "nvarchar"
+					},
+					{
+						"name": "monto_pagado",
+						"type": "decimal",
+						"precision": 12,
+						"scale": 2
+					}
+				],
+				"typeProperties": {
+					"schema": "ventas_omnicanal",
+					"table": "pagos"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/sql_productos')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "sql_omnicanal",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "sql"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "producto_id",
+						"type": "varchar"
+					},
+					{
+						"name": "nombre_producto",
+						"type": "nvarchar"
+					},
+					{
+						"name": "categoria",
+						"type": "nvarchar"
+					},
+					{
+						"name": "marca",
+						"type": "nvarchar"
+					},
+					{
+						"name": "precio_lista",
+						"type": "decimal",
+						"precision": 12,
+						"scale": 2
+					},
+					{
+						"name": "costo_unitario",
+						"type": "decimal",
+						"precision": 12,
+						"scale": 2
+					},
+					{
+						"name": "proveedor",
+						"type": "nvarchar"
+					},
+					{
+						"name": "estado_producto",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "ventas_omnicanal",
+					"table": "productos"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/sql_promociones')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "sql_omnicanal",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "sql"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "promocion_id",
+						"type": "varchar"
+					},
+					{
+						"name": "nombre_promocion",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tipo_descuento",
+						"type": "nvarchar"
+					},
+					{
+						"name": "valor_descuento",
+						"type": "decimal",
+						"precision": 8,
+						"scale": 2
+					},
+					{
+						"name": "fecha_inicio",
+						"type": "date"
+					},
+					{
+						"name": "fecha_fin",
+						"type": "date"
+					},
+					{
+						"name": "canal_aplicable",
+						"type": "nvarchar"
+					},
+					{
+						"name": "estado_promocion",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "ventas_omnicanal",
+					"table": "promociones"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/sql_repartidores')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "sql_omnicanal",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "sql"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "repartidor_id",
+						"type": "varchar"
+					},
+					{
+						"name": "nombre_repartidor",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tipo_vehiculo",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ciudad_base",
+						"type": "nvarchar"
+					},
+					{
+						"name": "fecha_alta",
+						"type": "date"
+					},
+					{
+						"name": "activo",
+						"type": "bit"
+					}
+				],
+				"typeProperties": {
+					"schema": "ventas_omnicanal",
+					"table": "repartidores"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/sql_restaurantes')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "sql_omnicanal",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "sql"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "restaurante_id",
+						"type": "varchar"
+					},
+					{
+						"name": "nombre_restaurante",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tipo_cocina",
+						"type": "nvarchar"
+					},
+					{
+						"name": "calificacion_promedio",
+						"type": "decimal",
+						"precision": 3,
+						"scale": 2
+					},
+					{
+						"name": "activo",
+						"type": "bit"
+					}
+				],
+				"typeProperties": {
+					"schema": "ventas_omnicanal",
+					"table": "restaurantes"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/sql_sucursales')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "sql_omnicanal",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "sql"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "sucursal_id",
+						"type": "varchar"
+					},
+					{
+						"name": "nombre_sucursal",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ciudad",
+						"type": "nvarchar"
+					},
+					{
+						"name": "zona",
+						"type": "nvarchar"
+					},
+					{
+						"name": "formato",
+						"type": "nvarchar"
+					},
+					{
+						"name": "fecha_apertura",
+						"type": "date"
+					},
+					{
+						"name": "restaurante_id",
+						"type": "varchar"
+					},
+					{
+						"name": "direccion",
+						"type": "nvarchar"
+					},
+					{
+						"name": "capacidad_mesas",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "tiene_delivery",
+						"type": "bit"
+					}
+				],
+				"typeProperties": {
+					"schema": "ventas_omnicanal",
+					"table": "sucursales"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/sql_ventas')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "sql_omnicanal",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "sql"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "venta_id",
+						"type": "varchar"
+					},
+					{
+						"name": "fecha_venta",
+						"type": "date"
+					},
+					{
+						"name": "cliente_id",
+						"type": "varchar"
+					},
+					{
+						"name": "sucursal_id",
+						"type": "varchar"
+					},
+					{
+						"name": "canal",
+						"type": "nvarchar"
+					},
+					{
+						"name": "medio_pago",
+						"type": "nvarchar"
+					},
+					{
+						"name": "promocion_id",
+						"type": "varchar"
+					},
+					{
+						"name": "estado_venta",
+						"type": "nvarchar"
+					},
+					{
+						"name": "total_venta",
+						"type": "decimal",
+						"precision": 12,
+						"scale": 2
+					},
+					{
+						"name": "hora_pedido",
+						"type": "time",
+						"scale": 0
+					},
+					{
+						"name": "tipo_servicio",
+						"type": "nvarchar"
+					},
+					{
+						"name": "subtotal",
+						"type": "decimal",
+						"precision": 12,
+						"scale": 2
+					},
+					{
+						"name": "costo_delivery",
+						"type": "decimal",
+						"precision": 12,
+						"scale": 2
+					},
+					{
+						"name": "descuento",
+						"type": "decimal",
+						"precision": 12,
+						"scale": 2
+					},
+					{
+						"name": "impuesto",
+						"type": "decimal",
+						"precision": 12,
+						"scale": 2
+					}
+				],
+				"typeProperties": {
+					"schema": "ventas_omnicanal",
+					"table": "ventas"
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
